@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import NoteDisplay from "./components/NoteDisplay";
 import { Note as NoteModel } from "./models/note";
 import { getNotes } from "./api";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import classes from "./styles/NotesPage.module.css";
+import NoteForm from "./components/NoteForm";
+import utils from "./styles/utils.module.css";
 
 const App = () => {
   const [notes, setNotes] = useState<NoteModel[]>([]);
+  const [showForm, setShowForm] = useState<boolean>(false);
 
   useEffect(() => {
     const loadNotes = async () => {
@@ -14,8 +17,6 @@ const App = () => {
       if (response) {
         setNotes(response);
       }
-
-      console.log(response);
     };
 
     loadNotes();
@@ -23,6 +24,13 @@ const App = () => {
 
   return (
     <Container>
+      <Button
+        onClick={() => setShowForm(true)}
+        className={`mb-4 mt-4 ${utils.blockCenter}`}
+      >
+        Add new note
+      </Button>
+
       <Row xs={1} md={2} xl={3} className="g-4 ">
         {notes.map((note: NoteModel) => (
           <Col key={note._id}>
@@ -30,6 +38,15 @@ const App = () => {
           </Col>
         ))}
       </Row>
+      {showForm && (
+        <NoteForm
+          onDismiss={() => setShowForm(false)}
+          onNoteSaved={(newNote) => {
+            setNotes((notes) => [...notes, newNote]);
+            setShowForm(false);
+          }}
+        />
+      )}
     </Container>
   );
 };
