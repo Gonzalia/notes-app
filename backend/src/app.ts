@@ -3,8 +3,10 @@ import "dotenv/config";
 import noteRoutes from "./routes/note.routes";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
+import { CorsConfig } from "./util/CorsConfig";
 
 const app = express();
+CorsConfig(app);
 
 app.use(morgan("dev"));
 app.use(express.json());
