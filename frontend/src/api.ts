@@ -22,3 +22,29 @@ export const addNote = async (note: NoteInput) => {
     console.error("Error adding a note: ", error);
   }
 };
+
+export const deleteNote = async (noteId: string) => {
+  let url: string = "";
+  if (noteId) {
+    url = `${baseURL}/${noteId}`;
+  }
+  try {
+    const response = await axios.delete(url);
+    return response.data;
+  } catch (error) {
+    console.error("Error adding a note: ", error);
+  }
+};
+
+export const updateNote = async (noteId: string, note: NoteInput) => {
+  let url: string = "";
+  if (noteId) {
+    url = `${baseURL}/${noteId}`;
+  }
+  try {
+    const response = await axios.put(url, note);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating a note: ", error);
+  }
+};
