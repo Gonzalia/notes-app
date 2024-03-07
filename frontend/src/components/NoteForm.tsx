@@ -17,7 +17,7 @@ const NoteForm = ({ noteToEdit, onDismiss, onNoteSaved }: AddEditNoteForm) => {
   } = useForm<NoteInput>({
     defaultValues: {
       title: noteToEdit?.title || "",
-      text: noteToEdit?.text || "",
+      text: noteToEdit?.text,
     },
   });
 

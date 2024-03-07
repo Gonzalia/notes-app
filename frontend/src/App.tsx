@@ -7,17 +7,32 @@ import classes from "./styles/NotesPage.module.css";
 import NoteForm from "./components/NoteForm";
 import utils from "./styles/utils.module.css";
 import { FaPlus } from "react-icons/fa";
+import LoadingSpinner from "./components/LoadingSpinner";
+import ErrorPage from "./components/ErrorPage";
+import EmptyNoteCase from "./components/EmptyNotesCase";
 
 const App = () => {
   const [notes, setNotes] = useState<NoteModel[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [noteToEdit, setNoteToEdit] = useState<NoteModel | null>(null);
+  const [notesLoading, setNotesLoading] = useState(true);
+  const [showNotesLoadingError, setShowNotesLoadingError] = useState(false);
 
   useEffect(() => {
     const loadNotes = async () => {
-      const response = await getNotes();
-      if (response) {
-        setNotes(response);
+      try {
+        setNotesLoading(true);
+        const response = await getNotes();
+        if (response) {
+          setNotes(response);
+        } else {
+          setShowNotesLoadingError(true);
+        }
+      } catch (error) {
+        setShowNotesLoadingError(true);
+        console.error(error);
+      } finally {
+        setNotesLoading(false);
       }
     };
 
@@ -43,6 +58,9 @@ const App = () => {
         Add new note
       </Button>
 
+      {notesLoading && <LoadingSpinner />}
+      {showNotesLoadingError && <ErrorPage />}
+      {notes.length === 0 && <EmptyNoteCase />}
       <Row xs={1} md={2} xl={3} className="g-4 ">
         {notes.map((note: NoteModel) => (
           <Col key={note._id}>
