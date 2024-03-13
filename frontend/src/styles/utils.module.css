@@ -14,3 +14,12 @@
 .width100 {
   width: 100%;
 }
+
+.whiteText {
+  color: #fff;
+  text-align: center;
+  margin-top: 10%;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  font-size: 24px;
+}

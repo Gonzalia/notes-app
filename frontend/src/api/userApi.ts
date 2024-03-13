@@ -2,12 +2,12 @@ import axios from "axios";
 import { USERURL } from "../utils/constants";
 import { User } from "../models/user";
 
-export const getLoggedInUser = async (): Promise<User> => {
+export const getLoggedInUser = async () => {
   try {
     const response = await axios.get(USERURL);
     return response.data;
   } catch (error) {
-    console.error("Error fetching notes: ", error);
+    console.error("Error getting user: ", error);
     throw error;
   }
 };
