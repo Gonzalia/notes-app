@@ -1,8 +1,8 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { Note } from "../models/note";
 import { useForm } from "react-hook-form";
-import { NoteInput, addNote, updateNote } from "../api";
-
+import { NoteInput, addNote, updateNote } from "../api/notesApi";
+import TextInputField from "./form/TextInputField";
 interface AddEditNoteForm {
   noteToEdit?: Note;
   onDismiss: () => void;
@@ -43,29 +43,24 @@ const NoteForm = ({ noteToEdit, onDismiss, onNoteSaved }: AddEditNoteForm) => {
 
       <Modal.Body>
         <Form id="addEditNoteForm" onSubmit={handleSubmit(onSubmit)}>
-          <Form.Group className="mb-3">
-            <Form.Label>Title</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Title"
-              isInvalid={!!errors.title}
-              {...register("title", { required: "Required" })}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.title?.message}
-            </Form.Control.Feedback>
-          </Form.Group>
+          <TextInputField
+            name="title"
+            label="Title"
+            type="text"
+            placeholder="Title"
+            register={register}
+            registerOptions={{ required: "Required" }}
+            errors={errors.title}
+          />
 
-          <Form.Group className="mb-3">
-            <Form.Label>Text</Form.Label>
-            <Form.Control
-              type="3"
-              as="textarea"
-              rows={5}
-              placeholder="text"
-              {...register("text")}
-            />
-          </Form.Group>
+          <TextInputField
+            name="text"
+            label="Text"
+            as="textarea"
+            rows={5}
+            placeholder="Text"
+            register={register}
+          />
         </Form>
       </Modal.Body>
 

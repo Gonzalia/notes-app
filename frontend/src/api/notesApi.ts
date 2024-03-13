@@ -1,9 +1,9 @@
 import axios from "axios";
+import { NOTESURL } from "../utils/constants";
 
-const baseURL = "http://localhost:5000/api/notes";
 export const getNotes = async () => {
   try {
-    const response = await axios.get(baseURL);
+    const response = await axios.get(NOTESURL);
     return response.data;
   } catch (error) {
     console.error("Error fetching notes: ", error);
@@ -16,7 +16,7 @@ export interface NoteInput {
 }
 export const addNote = async (note: NoteInput) => {
   try {
-    const response = await axios.post(baseURL, note);
+    const response = await axios.post(NOTESURL, note);
     return response.data;
   } catch (error) {
     console.error("Error adding a note: ", error);
@@ -26,7 +26,7 @@ export const addNote = async (note: NoteInput) => {
 export const deleteNote = async (noteId: string) => {
   let url: string = "";
   if (noteId) {
-    url = `${baseURL}/${noteId}`;
+    url = `${NOTESURL}/${noteId}`;
   }
   try {
     const response = await axios.delete(url);
@@ -39,7 +39,7 @@ export const deleteNote = async (noteId: string) => {
 export const updateNote = async (noteId: string, note: NoteInput) => {
   let url: string = "";
   if (noteId) {
-    url = `${baseURL}/${noteId}`;
+    url = `${NOTESURL}/${noteId}`;
   }
   try {
     const response = await axios.put(url, note);
